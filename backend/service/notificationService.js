@@ -7,6 +7,29 @@ const Notification = require('../db/models/notification');
  */
 class NotificationService {
   /**
+   * Create a notification with the given data
+   * @param {Object} notificationData - The notification data
+   * @returns {Object} - The created notification
+   */
+  static async createNotification(notificationData) {
+    try {
+      const notification = new Notification(notificationData);
+      await notification.save();
+      
+      console.log(`Notification sent to user ${notificationData.recipient}: ${notificationData.message}`);
+      
+      // In a production app, you would also:
+      // 1. Emit a socket.io event for real-time notifications
+      // 2. Send an email notification
+      
+      return notification;
+    } catch (error) {
+      console.error('Error creating notification:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Send notification to a user when they are assigned to a task
    * @param {string} taskId - The ID of the task
    * @param {string} assigneeId - The ID of the user being assigned
@@ -32,8 +55,8 @@ class NotificationService {
 
       const message = `You have been assigned to task "${task.title}" in project "${task.project.title}" by ${assigner.displayName || assigner.email}`;
       
-      // Create a notification record in the database
-      const notification = new Notification({
+      // Create a notification using the createNotification method
+      await this.createNotification({
         recipient: assigneeId,
         sender: assignerId,
         type: 'task_assignment',
@@ -42,14 +65,6 @@ class NotificationService {
         message: message,
         read: false
       });
-      
-      await notification.save();
-      
-      console.log(`Notification sent to user ${assigneeId}: ${message}`);
-      
-      // In a production app, you would also:
-      // 1. Emit a socket.io event for real-time notifications
-      // 2. Send an email notification
     } catch (error) {
       console.error('Error sending task assignment notification:', error);
     }
@@ -77,8 +92,8 @@ class NotificationService {
 
       const message = `Your task "${task.title}" has been moved from "${previousStatus}" to "${task.status}" by ${updater.displayName || updater.email}`;
       
-      // Create a notification record in the database
-      const notification = new Notification({
+      // Create a notification using the createNotification method
+      await this.createNotification({
         recipient: task.assignee,
         sender: updaterId,
         type: 'task_status_update',
@@ -87,14 +102,6 @@ class NotificationService {
         message: message,
         read: false
       });
-      
-      await notification.save();
-      
-      console.log(`Notification sent to user ${task.assignee}: ${message}`);
-      
-      // In a production app, you would also:
-      // 1. Emit a socket.io event for real-time notifications
-      // 2. Send an email notification
     } catch (error) {
       console.error('Error sending task status update notification:', error);
     }

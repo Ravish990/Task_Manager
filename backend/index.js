@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDb = require('./db/connection');
 const passport = require('./service/passport');
+const AutomationService = require('./service/automationService');
 
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.use('/projects', require('./routes/projectRoutes'));
 app.use('/invitations', require('./routes/invitationRoutes'));
 app.use('/tasks', require('./routes/taskRoutes'));
 app.use('/notifications', require('./routes/notificationRoutes'));
+// app.use('/automations', require('./routes/automationRoutes'));
 
 
 app.get('/dashboard', (req, res) => {
@@ -47,6 +49,14 @@ app.get('/dashboard', (req, res) => {
 });
 
 
+// Set up scheduled job to check for due date automations
+// In a production environment, you would use a proper scheduler like node-cron or a dedicated service
+const AUTOMATION_CHECK_INTERVAL = 1000 * 60 * 60; // Check every hour
+setInterval(() => {
+  console.log('Running scheduled automation check for due dates');
+  AutomationService.processDueDateAutomations()
+    .catch(err => console.error('Error in scheduled automation check:', err));
+}, AUTOMATION_CHECK_INTERVAL);
 
 
 const PORT = process.env.PORT || 8000;

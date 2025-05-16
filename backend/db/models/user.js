@@ -27,6 +27,22 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    // Badges earned by the user through automations
+    badges: [{
+        name: {
+            type: String,
+            required: true
+        },
+        projectId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Project',
+            required: true
+        },
+        earnedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }]
 });
 
 const User = mongoose.model('User', UserSchema);

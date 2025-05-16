@@ -13,7 +13,7 @@ const notificationSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['task_assignment', 'task_status_update', 'project_invitation'],
+    enum: ['task_assignment', 'task_status_update', 'project_invitation', 'automation_triggered'],
     required: true
   },
   taskId: {
@@ -27,6 +27,10 @@ const notificationSchema = new mongoose.Schema({
   invitationId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Invitation'
+  },
+  automationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Automation'
   },
   message: {
     type: String,

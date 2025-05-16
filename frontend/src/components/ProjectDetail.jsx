@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TaskBoard from './TaskBoard';
+import AutomationPanel from './AutomationPanel';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -194,9 +195,30 @@ const ProjectDetail = () => {
           </div>
 
           {/* Task Board */}
-          <div className="border-4 border-dashed border-gray-200 rounded-lg p-6 bg-white">
-            <TaskBoard project={project} />
-          </div>
+          {/* Task Board */}
+<div className="border-4 border-dashed border-gray-200 rounded-lg p-6 bg-white mb-6">
+  <TaskBoard project={project} />
+</div>
+
+{/* Automation Panel */}
+
+{/* <div className="rounded-2xl shadow-lg border border-blue-100 bg-gradient-to-br from-white via-blue-50 to-blue-100 p-6 mb-10">
+  <div className="flex items-center justify-between mb-4">
+    <h2 className="text-xl font-semibold text-blue-800 flex items-center gap-2">
+      ⚙️ Automation Rules
+    </h2>
+    <span className="text-sm text-blue-600 bg-white border border-blue-200 px-2 py-1 rounded-md shadow-sm">
+      Project Smart Triggers
+    </span>
+  </div>
+  <AutomationPanel
+    projectId={project._id}
+    currentUser={project.owner}
+    token={localStorage.getItem('token')}
+  />
+</div> */}
+
+
         </div>
       </div>
     </div>

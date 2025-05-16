@@ -1,5 +1,6 @@
 const Project = require('../db/models/project');
 const User = require('../db/models/user');
+const setupDefaultAutomations = require('../setupDefaultAutomations');
 
 // Create a new project
 exports.createProject = async (req, res) => {
@@ -27,6 +28,15 @@ exports.createProject = async (req, res) => {
         const savedProject = await newProject.save();
         
         console.log('Project created successfully:', savedProject);
+        
+        // Set up default automations for the new project
+        try {
+            await setupDefaultAutomations(savedProject._id, userId);
+            console.log('Default automations set up for project:', savedProject._id);
+        } catch (automationError) {
+            console.error('Error setting up default automations:', automationError);
+            // Continue even if automations setup fails
+        }
         
         res.status(201).json({
             success: true,

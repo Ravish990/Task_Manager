@@ -1,6 +1,7 @@
 const Task = require('../db/models/task');
 const Project = require('../db/models/project');
 const NotificationService = require('../service/notificationService');
+const AutomationService = require('../service/automationService');
 
 // Create a new task
 exports.createTask = async (req, res) => {
@@ -61,6 +62,9 @@ exports.createTask = async (req, res) => {
                 assignee,
                 userId
             );
+            
+            // Process task assignment automations
+            await AutomationService.processTaskAssignmentAutomations(populatedTask, userId);
         }
         
         res.status(201).json({
@@ -205,9 +209,11 @@ exports.updateTask = async (req, res) => {
             });
         }
         
-        // Store previous values for notification purposes
-        const previousStatus = task.status;
-        const previousAssignee = task.assignee;
+        // Store previous values for notification and automation purposes
+        const previousTask = {
+            status: task.status,
+            assignee: task.assignee
+        };
         
         // Update task
         const updateData = {};
@@ -227,7 +233,7 @@ exports.updateTask = async (req, res) => {
         // Send notifications based on what changed
         
         // If assignee changed, notify the new assignee
-        if (assignee && (!previousAssignee || previousAssignee.toString() !== assignee.toString())) {
+        if (assignee && (!previousTask.assignee || previousTask.assignee.toString() !== assignee.toString())) {
             await NotificationService.sendTaskAssignmentNotification(
                 taskId,
                 assignee,
@@ -236,13 +242,16 @@ exports.updateTask = async (req, res) => {
         }
         
         // If status changed, notify the assignee
-        if (status && status !== previousStatus && task.assignee) {
+        if (status && status !== previousTask.status && task.assignee) {
             await NotificationService.sendTaskStatusUpdateNotification(
                 task,
                 userId,
-                previousStatus
+                previousTask.status
             );
         }
+        
+        // Process automations based on the task update
+        await AutomationService.processTaskUpdate(task, previousTask, userId);
         
         res.status(200).json({
             success: true,
