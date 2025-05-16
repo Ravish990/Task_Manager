@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ProjectSchema = new mongoose.Schema({
+const TaskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -8,21 +8,29 @@ const ProjectSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: false,
         trim: true
     },
-    owner: {
+    dueDate: {
+        type: Date
+    },
+    assignee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['To Do', 'In Progress', 'Done'],
+        default: 'To Do'
+    },
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    },
-    members: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    taskStatuses: {
-        type: [String],
-        default: ['To Do', 'In Progress', 'Done']
     },
     createdAt: {
         type: Date,
@@ -35,11 +43,11 @@ const ProjectSchema = new mongoose.Schema({
 });
 
 // Update the updatedAt timestamp before saving
-ProjectSchema.pre('save', function(next) {
+TaskSchema.pre('save', function(next) {
     this.updatedAt = Date.now();
     next();
 });
 
-const Project = mongoose.model('Project', ProjectSchema);
+const Task = mongoose.model('Task', TaskSchema);
 
-module.exports = Project;
+module.exports = Task;

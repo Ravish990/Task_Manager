@@ -402,8 +402,14 @@ const Dashboard = () => {
                         <p className="mt-1 text-sm text-gray-500">
                           {project.description || 'No description provided'}
                         </p>
-                        <div className="mt-2 flex items-center text-sm text-gray-500">
+                        <div className="mt-2 flex items-center justify-between text-sm text-gray-500">
                           <p>Created: {new Date(project.createdAt).toLocaleDateString()}</p>
+                          <button
+                            onClick={() => navigate(`/projects/${project._id}`)}
+                            className="px-3 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-md hover:bg-green-200"
+                          >
+                            View Tasks
+                          </button>
                         </div>
                       </div>
                     </li>
