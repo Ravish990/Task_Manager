@@ -219,14 +219,32 @@ exports.inviteUser = async (req, res) => {
             return res.status(400).json({ error: 'User is already a member of this project' });
         }
         
-        // Add user to members
-        project.members.push(userToInvite._id);
-        await project.save();
+        // Check if there's already a pending invitation
+        const Invitation = require('../db/models/invitation');
+        const existingInvitation = await Invitation.findOne({
+            project: project._id,
+            recipient: userToInvite._id,
+            status: 'pending'
+        });
+        
+        if (existingInvitation) {
+            return res.status(400).json({ error: 'An invitation has already been sent to this user' });
+        }
+        
+        // Create a new invitation
+        const invitation = new Invitation({
+            project: project._id,
+            sender: userId,
+            recipient: userToInvite._id,
+            status: 'pending'
+        });
+        
+        await invitation.save();
         
         res.status(200).json({
             success: true,
-            message: `${userToInvite.displayName || userToInvite.email} has been added to the project`,
-            project
+            message: `Invitation sent to ${userToInvite.displayName || userToInvite.email}`,
+            invitation
         });
     } catch (error) {
         console.error('Invite user error:', error);

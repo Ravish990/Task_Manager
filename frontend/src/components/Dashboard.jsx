@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Notification from './Notification';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -145,14 +146,16 @@ const Dashboard = () => {
   const handleInviteUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         `http://localhost:8000/projects/${selectedProject._id}/invite`,
         { email: inviteEmail },
         { headers: getAuthHeader(), withCredentials: true }
       );
       
-      // Refresh projects to show updated members
-      fetchProjects();
+      setError('');
+      // Show success message
+      alert(`Invitation sent to ${inviteEmail} successfully!`);
+      
       setInviteEmail('');
       setShowInviteForm(false);
     } catch (err) {
@@ -215,6 +218,9 @@ const Dashboard = () => {
                   Welcome, {userData.displayName || userData.name || 'User'}
                 </span>
               )}
+              <div className="mr-4">
+                <Notification />
+              </div>
               <button
                 onClick={handleLogout}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
