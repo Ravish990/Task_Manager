@@ -207,21 +207,21 @@ const TaskBoard = ({ project }) => {
         <h3 className="text-lg font-medium text-gray-900">Tasks</h3>
         <button
           onClick={() => setShowCreateForm(true)}
-          className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 btn-hover-effect animate-fade-in"
         >
           Add Task
         </button>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+        <div className="mb-4 p-3 text-sm text-red-700 bg-red-100 rounded-lg animate-shake" role="alert">
           {error}
         </div>
       )}
 
       {/* Create Task Form */}
       {showCreateForm && (
-        <div className="mb-6 p-4 bg-gray-50 rounded-md">
+        <div className="mb-6 p-4 bg-gray-50 rounded-md animate-fade-in">
           <h4 className="text-md font-medium text-gray-900 mb-3">Create New Task</h4>
           <form onSubmit={handleCreateTask}>
             <div className="mb-3">
@@ -233,7 +233,7 @@ const TaskBoard = ({ project }) => {
                 id="title"
                 value={taskTitle}
                 onChange={(e) => setTaskTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 form-field-focus"
                 required
               />
             </div>
@@ -245,7 +245,7 @@ const TaskBoard = ({ project }) => {
                 id="description"
                 value={taskDescription}
                 onChange={(e) => setTaskDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 form-field-focus"
                 rows="2"
               ></textarea>
             </div>
@@ -258,7 +258,7 @@ const TaskBoard = ({ project }) => {
                 id="dueDate"
                 value={taskDueDate}
                 onChange={(e) => setTaskDueDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 form-field-focus"
               />
             </div>
             <div className="mb-3">
@@ -269,7 +269,7 @@ const TaskBoard = ({ project }) => {
                 id="assignee"
                 value={taskAssignee}
                 onChange={(e) => setTaskAssignee(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 form-field-focus"
               >
                 <option value="">Select Assignee</option>
                 {projectMembers.map(member => (
@@ -283,13 +283,13 @@ const TaskBoard = ({ project }) => {
               <button
                 type="button"
                 onClick={() => setShowCreateForm(false)}
-                className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 btn-hover-effect"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 btn-hover-effect"
               >
                 Create
               </button>
@@ -323,13 +323,13 @@ const TaskBoard = ({ project }) => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="bg-white p-3 mb-2 rounded-md shadow-sm border border-gray-200"
+                            className="bg-white p-3 mb-2 rounded-md shadow-sm border border-gray-200 task-card-enter hover-lift"
                           >
                             <div className="flex justify-between items-start">
                               <h5 className="font-medium text-gray-900">{task.title}</h5>
                               <button
                                 onClick={() => handleDeleteTask(task._id)}
-                                className="text-red-500 hover:text-red-700 text-sm"
+                                className="text-red-500 hover:text-red-700 text-sm hover-scale"
                               >
                                 ×
                               </button>
@@ -343,7 +343,7 @@ const TaskBoard = ({ project }) => {
                               </div>
                             )}
                             {task.assignee && (
-                              <div className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mt-2 inline-block">
+                              <div className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mt-2 inline-block animate-fade-in">
                                 {task.assignee.displayName || task.assignee.email}
                               </div>
                             )}

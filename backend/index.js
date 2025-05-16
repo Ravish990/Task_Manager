@@ -39,6 +39,7 @@ app.use('/users', require('./routes/userRoutes'));
 app.use('/projects', require('./routes/projectRoutes'));
 app.use('/invitations', require('./routes/invitationRoutes'));
 app.use('/tasks', require('./routes/taskRoutes'));
+app.use('/notifications', require('./routes/notificationRoutes'));
 
 
 app.get('/dashboard', (req, res) => {

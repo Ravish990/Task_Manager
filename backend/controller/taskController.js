@@ -1,5 +1,6 @@
 const Task = require('../db/models/task');
 const Project = require('../db/models/project');
+const NotificationService = require('../service/notificationService');
 
 // Create a new task
 exports.createTask = async (req, res) => {
@@ -52,6 +53,15 @@ exports.createTask = async (req, res) => {
         const populatedTask = await Task.findById(savedTask._id)
             .populate('createdBy', 'displayName email')
             .populate('assignee', 'displayName email');
+        
+        // Send notification to assignee if one was specified
+        if (assignee) {
+            await NotificationService.sendTaskAssignmentNotification(
+                savedTask._id,
+                assignee,
+                userId
+            );
+        }
         
         res.status(201).json({
             success: true,
@@ -195,6 +205,10 @@ exports.updateTask = async (req, res) => {
             });
         }
         
+        // Store previous values for notification purposes
+        const previousStatus = task.status;
+        const previousAssignee = task.assignee;
+        
         // Update task
         const updateData = {};
         if (title) updateData.title = title;
@@ -209,6 +223,26 @@ exports.updateTask = async (req, res) => {
             { new: true }
         ).populate('createdBy', 'displayName email')
          .populate('assignee', 'displayName email');
+        
+        // Send notifications based on what changed
+        
+        // If assignee changed, notify the new assignee
+        if (assignee && (!previousAssignee || previousAssignee.toString() !== assignee.toString())) {
+            await NotificationService.sendTaskAssignmentNotification(
+                taskId,
+                assignee,
+                userId
+            );
+        }
+        
+        // If status changed, notify the assignee
+        if (status && status !== previousStatus && task.assignee) {
+            await NotificationService.sendTaskStatusUpdateNotification(
+                task,
+                userId,
+                previousStatus
+            );
+        }
         
         res.status(200).json({
             success: true,
