@@ -247,7 +247,7 @@ const Dashboard = () => {
               <div className="space-y-2">
                 <p><span className="font-semibold">Name:</span> {userData.displayName || userData.name || 'N/A'}</p>
                 <p><span className="font-semibold">Email:</span> {userData.email || 'N/A'}</p>
-                <p><span className="font-semibold">ID:</span> {userData.id || userData._id || 'N/A'}</p>
+       
               </div>
             ) : (
               <p className="text-gray-500">No user data available</p>
