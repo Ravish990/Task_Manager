@@ -36,6 +36,7 @@ app.use(passport.session());
 
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/users', require('./routes/userRoutes'));
+app.use('/projects', require('./routes/projectRoutes'));
 
 
 app.get('/dashboard', (req, res) => {
