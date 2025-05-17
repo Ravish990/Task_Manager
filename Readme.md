@@ -128,11 +128,11 @@ TaskBoard Pro - README
 ## Run Locally
 ```bash
 # Backend
-cd server
+cd backend
 npm install
 npm run dev
 # Frontend
-cd client
+cd frontend
 npm install
 npm start
 ```
