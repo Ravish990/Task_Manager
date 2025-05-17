@@ -122,9 +122,7 @@ TaskBoard Pro - README
 TaskBoard Pro - README
 ```
 ## Demo Video
- Watch the Demo: https://your-demo-link.com
-## Optional Postman Collection
- Download Collection: https://your-postman-link.com
+ Watch the Demo: https://drive.google.com/file/d/1QILs5MVw1WoGuvCHzAU4DhVjAbOjAZwG/view?usp=sharing
 ## Run Locally
 ```bash
 # Backend
