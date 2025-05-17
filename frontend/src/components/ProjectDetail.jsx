@@ -15,7 +15,6 @@ const ProjectDetail = () => {
   const [projectDescription, setProjectDescription] = useState('');
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
-  // Get auth header for API requests
   const getAuthHeader = () => {
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -32,7 +31,7 @@ const ProjectDetail = () => {
         headers: getAuthHeader(),
         withCredentials: true,
       });
-      
+
       const projectData = response.data.project;
       setProject(projectData);
       setProjectTitle(projectData.title);
@@ -47,25 +46,16 @@ const ProjectDetail = () => {
 
   const handleUpdateProject = async (e) => {
     e.preventDefault();
-    
     try {
       setError('');
-      
       const response = await axios.put(
         `http://localhost:8000/projects/${projectId}`,
-        {
-          title: projectTitle,
-          description: projectDescription
-        },
-        {
-          headers: getAuthHeader(),
-          withCredentials: true
-        }
+        { title: projectTitle, description: projectDescription },
+        { headers: getAuthHeader(), withCredentials: true }
       );
-      
+
       setProject(response.data.project);
       setUpdateSuccess(true);
-      
       setTimeout(() => {
         setUpdateSuccess(false);
         setShowEditForm(false);
@@ -93,18 +83,19 @@ const ProjectDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-md text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
               <button
                 onClick={() => navigate('/dashboard')}
-                className="text-gray-500 hover:text-gray-700 mr-4"
+                className="text-white hover:text-yellow-300 transition duration-200"
               >
                 ← Back to Dashboard
               </button>
-              <h1 className="text-xl font-bold text-gray-800">Project Details</h1>
+              <h1 className="text-xl font-bold tracking-tight">Project Details</h1>
             </div>
           </div>
         </div>
@@ -118,67 +109,62 @@ const ProjectDetail = () => {
         )}
 
         <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg p-6 bg-white mb-6">
+          {/* Project Info */}
+          <div className="border-4 border-dashed border-blue-200 rounded-2xl p-6 bg-white mb-6 shadow-md hover:shadow-xl transition duration-300">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-medium text-gray-900">{project.title}</h2>
+              <h2 className="text-2xl font-semibold text-blue-900">{project.title}</h2>
               <div className="flex space-x-2">
                 <button
                   onClick={() => setShowEditForm(true)}
-                  className="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="px-4 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-md hover:scale-105 hover:shadow-lg transition-all duration-300"
                 >
-                  Edit
+                  ✏️ Edit
                 </button>
               </div>
             </div>
-            
+
             {showEditForm ? (
-              <div className="bg-gray-50 p-4 rounded-md">
-                <form onSubmit={handleUpdateProject}>
-                  <div className="mb-3">
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                      Title
-                    </label>
+              <div className="bg-blue-50 p-5 rounded-xl">
+                <form onSubmit={handleUpdateProject} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-blue-700 mb-1">Title</label>
                     <input
                       type="text"
-                      id="title"
                       value={projectTitle}
                       onChange={(e) => setProjectTitle(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 border border-blue-200 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       required
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                      Description
-                    </label>
+                  <div>
+                    <label className="block text-sm font-medium text-blue-700 mb-1">Description</label>
                     <textarea
-                      id="description"
                       value={projectDescription}
                       onChange={(e) => setProjectDescription(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 border border-blue-200 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       rows="3"
                     ></textarea>
                   </div>
-                  
+
                   {updateSuccess && (
-                    <div className="mb-3 p-2 bg-green-100 text-green-700 rounded-md text-center">
-                      Project updated successfully!
+                    <div className="text-green-700 bg-green-100 px-3 py-2 rounded-md text-sm">
+                      ✅ Project updated successfully!
                     </div>
                   )}
-                  
+
                   <div className="flex justify-end space-x-3">
                     <button
                       type="button"
                       onClick={() => setShowEditForm(false)}
-                      className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="px-4 py-1.5 text-sm border border-gray-400 text-gray-700 rounded-md hover:bg-gray-100 transition"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="px-4 py-1.5 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
                     >
-                      Update
+                      Save Changes
                     </button>
                   </div>
                 </form>
@@ -186,39 +172,35 @@ const ProjectDetail = () => {
             ) : (
               <>
                 <p className="text-gray-600 mb-4">{project.description || 'No description provided'}</p>
-                <div className="text-sm text-gray-500">
-                  <p>Created: {new Date(project.createdAt).toLocaleDateString()}</p>
-                  <p>Last Updated: {new Date(project.updatedAt).toLocaleDateString()}</p>
+                <div className="text-sm text-gray-500 space-y-1">
+                  <p>📅 Created: {new Date(project.createdAt).toLocaleDateString()}</p>
+                  <p>🕒 Updated: {new Date(project.updatedAt).toLocaleDateString()}</p>
                 </div>
               </>
             )}
           </div>
 
           {/* Task Board */}
-          {/* Task Board */}
-<div className="border-4 border-dashed border-gray-200 rounded-lg p-6 bg-white mb-6">
-  <TaskBoard project={project} />
-</div>
+          <div className="border-4 border-dashed border-indigo-200 rounded-xl p-6 bg-white mb-6 shadow-sm hover:shadow-md transition">
+            <TaskBoard project={project} />
+          </div>
 
-{/* Automation Panel */}
-
-<div className="rounded-2xl shadow-lg border border-blue-100 bg-gradient-to-br from-white via-blue-50 to-blue-100 p-6 mb-10">
-  <div className="flex items-center justify-between mb-4">
-    <h2 className="text-xl font-semibold text-blue-800 flex items-center gap-2">
-      ⚙️ Automation Rules
-    </h2>
-    <span className="text-sm text-blue-600 bg-white border border-blue-200 px-2 py-1 rounded-md shadow-sm">
-      Project Smart Triggers
-    </span>
-  </div>
-  <AutomationPanel
-    projectId={project._id}
-    currentUser={project.owner}
-    token={localStorage.getItem('token')}
-  />
-</div>
-
-
+          {/* Automation Panel */}
+          <div className="rounded-2xl shadow-lg border border-blue-200 bg-gradient-to-br from-white via-blue-50 to-blue-100 p-6 mb-10 hover:shadow-xl transition duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-blue-800 flex items-center gap-2">
+                ⚙️ Automation Rules
+              </h2>
+              <span className="text-sm text-blue-700 bg-white border border-blue-300 px-3 py-1 rounded-md shadow-sm">
+                Project Smart Triggers
+              </span>
+            </div>
+            <AutomationPanel
+              projectId={project._id}
+              currentUser={project.owner}
+              token={localStorage.getItem('token')}
+            />
+          </div>
         </div>
       </div>
     </div>
