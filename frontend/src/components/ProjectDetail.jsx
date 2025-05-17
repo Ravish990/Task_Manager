@@ -202,7 +202,7 @@ const ProjectDetail = () => {
 
 {/* Automation Panel */}
 
-{/* <div className="rounded-2xl shadow-lg border border-blue-100 bg-gradient-to-br from-white via-blue-50 to-blue-100 p-6 mb-10">
+<div className="rounded-2xl shadow-lg border border-blue-100 bg-gradient-to-br from-white via-blue-50 to-blue-100 p-6 mb-10">
   <div className="flex items-center justify-between mb-4">
     <h2 className="text-xl font-semibold text-blue-800 flex items-center gap-2">
       ⚙️ Automation Rules
@@ -216,7 +216,7 @@ const ProjectDetail = () => {
     currentUser={project.owner}
     token={localStorage.getItem('token')}
   />
-</div> */}
+</div>
 
 
         </div>
