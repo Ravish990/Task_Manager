@@ -39,7 +39,7 @@ const Dashboard = () => {
       } else {
         // Otherwise try to get user data from session (for OAuth users)
         try {
-          const response = await axios.get('http://localhost:8000/auth/current_user', {
+          const response = await axios.get('https://task-manager-byju.onrender.com/auth/current_user', {
             withCredentials: true,
           });
           
@@ -71,7 +71,7 @@ const Dashboard = () => {
       
       console.log('Using headers for project fetch:', headers);
       
-      const response = await axios.get('http://localhost:8000/projects/getAll', {
+      const response = await axios.get('https://task-manager-byju.onrender.com/projects/getAll', {
         headers: headers,
         withCredentials: true,
       });
@@ -110,7 +110,7 @@ const Dashboard = () => {
       console.log('Using headers:', headers);
       
       const response = await axios.post(
-        'http://localhost:8000/projects/create',
+        'https://task-manager-byju.onrender.com/projects/create',
         { title: projectTitle, description: projectDescription },
         { 
           headers: headers, 
@@ -147,7 +147,7 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8000/projects/${selectedProject._id}/invite`,
+        `https://task-manager-byju.onrender.com/projects/${selectedProject._id}/invite`,
         { email: inviteEmail },
         { headers: getAuthHeader(), withCredentials: true }
       );
@@ -167,7 +167,7 @@ const Dashboard = () => {
   const handleDeleteProject = async (projectId) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
       try {
-        await axios.delete(`http://localhost:8000/projects/${projectId}`, {
+        await axios.delete(`https://task-manager-byju.onrender.com/projects/${projectId}`, {
           headers: getAuthHeader(),
           withCredentials: true,
         });
@@ -184,7 +184,7 @@ const Dashboard = () => {
     try {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      await axios.get('http://localhost:8000/auth/logout', {
+      await axios.get('https://task-manager-byju.onrender.com/auth/logout', {
         withCredentials: true,
       });
       

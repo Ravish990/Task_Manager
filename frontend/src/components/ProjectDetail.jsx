@@ -27,7 +27,7 @@ const ProjectDetail = () => {
   const fetchProject = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8000/projects/${projectId}`, {
+      const response = await axios.get(`https://task-manager-byju.onrender.com/projects/${projectId}`, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -49,7 +49,7 @@ const ProjectDetail = () => {
     try {
       setError('');
       const response = await axios.put(
-        `http://localhost:8000/projects/${projectId}`,
+        `https://task-manager-byju.onrender.com/projects/${projectId}`,
         { title: projectTitle, description: projectDescription },
         { headers: getAuthHeader(), withCredentials: true }
       );

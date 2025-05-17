@@ -15,7 +15,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:8000/users/login', {
+      const response = await axios.post('https://task-manager-byju.onrender.com/users/login', {
         email,
         password,
       });
@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = 'http://localhost:8000/auth/google';
+    window.location.href = 'https://task-manager-byju.onrender.com/auth/google';
   };
 
   return (
