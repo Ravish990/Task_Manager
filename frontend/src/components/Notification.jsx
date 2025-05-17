@@ -21,13 +21,13 @@ const Notification = () => {
       setLoading(true);
       
       // Fetch task notifications
-      const notificationsResponse = await axios.get('https://task-manager-byju.onrender.com/notifications', {
+      const notificationsResponse = await axios.get('http://localhost:8000/notifications', {
         headers: getAuthHeader(),
         withCredentials: true,
       });
       
       // Fetch project invitations
-      const invitationsResponse = await axios.get('https://task-manager-byju.onrender.com/pending', {
+      const invitationsResponse = await axios.get('http://localhost:8000/invitations/pending', {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -54,7 +54,7 @@ const Notification = () => {
 
   const handleAcceptInvitation = async (invitationId) => {
     try {
-      await axios.put(`https://task-manager-byju.onrender.com/invitations/${invitationId}/accept`, {}, {
+      await axios.put(`http://localhost:8000/invitations/${invitationId}/accept`, {}, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -69,7 +69,7 @@ const Notification = () => {
 
   const handleRejectInvitation = async (invitationId) => {
     try {
-      await axios.put(`https://task-manager-byju.onrender.com/invitations/${invitationId}/reject`, {}, {
+      await axios.put(`http://localhost:8000/invitations/${invitationId}/reject`, {}, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -84,7 +84,7 @@ const Notification = () => {
 
   const handleMarkAsRead = async (notificationId) => {
     try {
-      await axios.put(`https://task-manager-byju.onrender.com/notifications/${notificationId}/read`, {}, {
+      await axios.put(`http://localhost:8000/notifications/${notificationId}/read`, {}, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -100,7 +100,7 @@ const Notification = () => {
 
   const handleMarkAllAsRead = async () => {
     try {
-      await axios.put('https://task-manager-byju.onrender.com/notifications/read-all', {}, {
+      await axios.put('http://localhost:8000/notifications/read-all', {}, {
         headers: getAuthHeader(),
         withCredentials: true,
       });

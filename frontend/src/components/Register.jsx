@@ -23,7 +23,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('https://task-manager-byju.onrender.com/users/register', {
+      const response = await axios.post('http://localhost:8000/users/register', {
         displayName,
         email,
         password,
@@ -40,7 +40,7 @@ const Register = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = 'https://task-manager-byju.onrender.com/auth/google';
+    window.location.href = 'http://localhost:8000/auth/google';
   };
 
   return (

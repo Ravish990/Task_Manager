@@ -101,7 +101,7 @@ const AutomationPanel = ({ projectId, currentUser, token }) => {
     const fetchAutomations = async () => {
       try {
         const res = await axios.get(
-          `https://task-manager-byju.onrender.com/automations/project/${projectId}`,
+          `http://localhost:8000/automations/project/${projectId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setAutomations(res.data.automations);
@@ -115,7 +115,7 @@ const AutomationPanel = ({ projectId, currentUser, token }) => {
 
   const handleDelete = async (automationId) => {
     try {
-      await axios.delete(`https://task-manager-byju.onrender.com/automations/${automationId}`, {
+      await axios.delete(`http://localhost:8000/automations/${automationId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAutomations((prev) => prev.filter((a) => a._id !== automationId));
@@ -130,7 +130,7 @@ const AutomationPanel = ({ projectId, currentUser, token }) => {
       const parsedParams = JSON.parse(params);
 
       const res = await axios.post(
-        'https://task-manager-byju.onrender.com/automations/create',
+        'http://localhost:8000/automations/create',
         {
           projectId,
           name,

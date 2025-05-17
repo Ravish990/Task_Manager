@@ -30,7 +30,7 @@ const TaskBoard = ({ project }) => {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`https://task-manager-byju.onrender.com/tasks/project/${project._id}`, {
+      const response = await axios.get(`http://localhost:8000/tasks/project/${project._id}`, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -47,7 +47,7 @@ const TaskBoard = ({ project }) => {
 
   const fetchProjectMembers = async () => {
     try {
-      const response = await axios.get(`https://task-manager-byju.onrender.com/projects/${project._id}`, {
+      const response = await axios.get(`http://localhost:8000/projects/${project._id}`, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -97,7 +97,7 @@ const TaskBoard = ({ project }) => {
       setError('');
       
       const response = await axios.post(
-        'https://task-manager-byju.onrender.com/tasks/create',
+        'http://localhost:8000/tasks/create',
         {
           title: taskTitle,
           description: taskDescription,
@@ -135,7 +135,7 @@ const TaskBoard = ({ project }) => {
   const handleUpdateTaskStatus = async (taskId, newStatus) => {
     try {
       const response = await axios.put(
-        `https://task-manager-byju.onrender.com/tasks/${taskId}`,
+        `http://localhost:8000/tasks/${taskId}`,
         { status: newStatus },
         {
           headers: getAuthHeader(),
@@ -161,7 +161,7 @@ const TaskBoard = ({ project }) => {
   const handleDeleteTask = async (taskId) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
-        await axios.delete(`https://task-manager-byju.onrender.com/tasks/${taskId}`, {
+        await axios.delete(`http://localhost:8000/tasks/${taskId}`, {
           headers: getAuthHeader(),
           withCredentials: true,
         });
