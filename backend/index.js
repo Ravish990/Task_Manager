@@ -44,7 +44,7 @@ app.use('/notifications', require('./routes/notificationRoutes'));
 app.use('/automations', require('./routes/automationRoutes'));
 
 
-app.get('/dashboard', (req, res) => {
+app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
