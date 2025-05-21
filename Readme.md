@@ -6,7 +6,7 @@ authentication, it empowers teams to manage projects, track tasks, and automate 
 ## Features
 ### Core Functionalities
 - **User Authentication**
- - Google OAuth login (via Firebase)
+ - Google OAuth login (via PassportJs)
  - Stores basic user profile (name, email)
 - **Project Management**
  - Create and manage projects (title, description)
