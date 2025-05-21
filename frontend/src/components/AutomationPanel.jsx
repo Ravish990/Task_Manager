@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 const styles = {
   panel: {
     border: '1px solid #ccc',
@@ -101,7 +102,7 @@ const AutomationPanel = ({ projectId, currentUser, token }) => {
     const fetchAutomations = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/automations/project/${projectId}`,
+          `${BASE_URL}/automations/project/${projectId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setAutomations(res.data.automations);
@@ -115,7 +116,7 @@ const AutomationPanel = ({ projectId, currentUser, token }) => {
 
   const handleDelete = async (automationId) => {
     try {
-      await axios.delete(`http://localhost:8000/automations/${automationId}`, {
+      await axios.delete(`${BASE_URL}/automations/${automationId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAutomations((prev) => prev.filter((a) => a._id !== automationId));
@@ -130,7 +131,7 @@ const AutomationPanel = ({ projectId, currentUser, token }) => {
       const parsedParams = JSON.parse(params);
 
       const res = await axios.post(
-        'http://localhost:8000/automations/create',
+        `${BASE_URL}/automations/create`,
         {
           projectId,
           name,

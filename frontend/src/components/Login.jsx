@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,7 +18,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:8000/users/login', {
+      const response = await axios.post(`${BASE_URL}/users/login`, {
         email,
         password,
       });
@@ -31,7 +34,7 @@ const Login = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = 'http://localhost:8000/auth/google';
+    window.location.href = `${BASE_URL}/auth/google`;
   };
 
   return (

@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+
 const TaskBoard = ({ project }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +33,7 @@ const TaskBoard = ({ project }) => {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8000/tasks/project/${project._id}`, {
+      const response = await axios.get(`${BASE_URL}/tasks/project/${project._id}`, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -47,7 +50,7 @@ const TaskBoard = ({ project }) => {
 
   const fetchProjectMembers = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/projects/${project._id}`, {
+      const response = await axios.get(`${BASE_URL}/projects/${project._id}`, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -97,7 +100,7 @@ const TaskBoard = ({ project }) => {
       setError('');
       
       const response = await axios.post(
-        'http://localhost:8000/tasks/create',
+        `${BASE_URL}/tasks/create`,
         {
           title: taskTitle,
           description: taskDescription,
@@ -135,7 +138,7 @@ const TaskBoard = ({ project }) => {
   const handleUpdateTaskStatus = async (taskId, newStatus) => {
     try {
       const response = await axios.put(
-        `http://localhost:8000/tasks/${taskId}`,
+        `${BASE_URL}/tasks/${taskId}`,
         { status: newStatus },
         {
           headers: getAuthHeader(),
@@ -161,7 +164,7 @@ const TaskBoard = ({ project }) => {
   const handleDeleteTask = async (taskId) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
-        await axios.delete(`http://localhost:8000/tasks/${taskId}`, {
+        await axios.delete(`${BASE_URL}/tasks/${taskId}`, {
           headers: getAuthHeader(),
           withCredentials: true,
         });

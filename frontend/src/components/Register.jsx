@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+
 const Register = () => {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
@@ -23,7 +26,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/users/register', {
+      const response = await axios.post(`${BASE_URL}/users/register`, {
         displayName,
         email,
         password,
@@ -40,7 +43,7 @@ const Register = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = 'http://localhost:8000/auth/google';
+    window.location.href = `${BASE_URL}/auth/google`;
   };
 
   return (

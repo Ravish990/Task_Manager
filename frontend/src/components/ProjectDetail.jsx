@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TaskBoard from './TaskBoard';
 import AutomationPanel from './AutomationPanel';
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -27,7 +29,7 @@ const ProjectDetail = () => {
   const fetchProject = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8000/projects/${projectId}`, {
+      const response = await axios.get(`${BASE_URL}/projects/${projectId}`, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -49,7 +51,7 @@ const ProjectDetail = () => {
     try {
       setError('');
       const response = await axios.put(
-        `http://localhost:8000/projects/${projectId}`,
+        `${BASE_URL}/projects/${projectId}`,
         { title: projectTitle, description: projectDescription },
         { headers: getAuthHeader(), withCredentials: true }
       );
