@@ -2,10 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-router.get('/google', passport.authenticate('google', { 
-  scope: ['profile', 'email'],
-  prompt: 'select_account' // Forces Google account selection screen
-}));
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get(
   '/google/callback',
