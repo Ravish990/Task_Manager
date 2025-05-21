@@ -8,7 +8,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('https://task-manager-1-es9c.onrender.com/dashboard');
+    res.redirect('http://localhost:5173/dashboard');
   }
 );
 
