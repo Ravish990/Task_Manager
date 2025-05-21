@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TaskBoard from './TaskBoard';
 import AutomationPanel from './AutomationPanel';
+const BaseURL = import.meta.env.VITE_API_BASE_URL;
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -14,6 +15,7 @@ const ProjectDetail = () => {
   const [projectTitle, setProjectTitle] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const BaseURL = import.meta.env.VITE_API_BASE_URL;
 
   const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -27,7 +29,7 @@ const ProjectDetail = () => {
   const fetchProject = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8000/projects/${projectId}`, {
+      const response = await axios.get(`${BaseURL}/projects/${projectId}`, {
         headers: getAuthHeader(),
         withCredentials: true,
       });
@@ -49,7 +51,7 @@ const ProjectDetail = () => {
     try {
       setError('');
       const response = await axios.put(
-        `http://localhost:8000/projects/${projectId}`,
+        `${BaseURL}/projects/${projectId}`,
         { title: projectTitle, description: projectDescription },
         { headers: getAuthHeader(), withCredentials: true }
       );

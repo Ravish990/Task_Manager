@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Notification from './Notification';
 
+const BaseURL = import.meta.env.VITE_API_BASE_URL;
+
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ const Dashboard = () => {
       } else {
         // Otherwise try to get user data from session (for OAuth users)
         try {
-          const response = await axios.get('http://localhost:8000/auth/current_user', {
+          const response = await axios.get(`${BaseURL}/auth/current_user`, {
             withCredentials: true,
           });
           
@@ -71,7 +73,7 @@ const Dashboard = () => {
       
       console.log('Using headers for project fetch:', headers);
       
-      const response = await axios.get('http://localhost:8000/projects/getAll', {
+      const response = await axios.get(`${BaseURL}/projects/getAll`, {
         headers: headers,
         withCredentials: true,
       });
@@ -110,7 +112,7 @@ const Dashboard = () => {
       console.log('Using headers:', headers);
       
       const response = await axios.post(
-        'http://localhost:8000/projects/create',
+        `${BaseURL}/projects/create`,
         { title: projectTitle, description: projectDescription },
         { 
           headers: headers, 
@@ -147,7 +149,7 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8000/projects/${selectedProject._id}/invite`,
+        `${BaseURL}/projects/${selectedProject._id}/invite`,
         { email: inviteEmail },
         { headers: getAuthHeader(), withCredentials: true }
       );
@@ -167,7 +169,7 @@ const Dashboard = () => {
   const handleDeleteProject = async (projectId) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
       try {
-        await axios.delete(`http://localhost:8000/projects/${projectId}`, {
+        await axios.delete(`${BaseURL}/projects/${projectId}`, {
           headers: getAuthHeader(),
           withCredentials: true,
         });
@@ -184,7 +186,7 @@ const Dashboard = () => {
     try {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      await axios.get('http://localhost:8000/auth/logout', {
+      await axios.get(`${BaseURL}/auth/logout`, {
         withCredentials: true,
       });
       
