@@ -17,8 +17,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,             
+  origin: ['http://localhost:5173', 'https://task-manager-1-es9c.onrender.com'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 
@@ -27,7 +29,12 @@ app.use(
     secret: process.env.SESSION_SECRET || 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production' }
+    cookie: { 
+      secure: true, // Always use secure cookies in production
+      sameSite: 'none', // Required for cross-site cookies
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      httpOnly: true // Prevents client-side JS from reading the cookie
+    }
   })
 );
 
